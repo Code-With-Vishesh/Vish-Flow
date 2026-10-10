@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="assets/logo-mark.webp">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vish Flow – Multi-Domain Internship Program | Code With Vishesh</title>
+<meta name="description" content="Vish Flow is a multi-domain internship initiative by Code With Vishesh. Explore domains, build practical projects, and grow at your level.">
+<meta property="og:title" content="Vish Flow – Learn. Build. Grow.">
+<meta property="og:description" content="Multi-domain internship program powered by Code With Vishesh.">
+<meta property="og:type" content="website">
+<script>(function(){var t;try{t=localStorage.getItem("vf-theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<canvas id="gl" aria-hidden="true"></canvas>
+<header>
+<div class="wrap nav">
+<a class="logo" href="#home" aria-label="Vish Flow home"><img class="mark" src="assets/logo-mark.webp" alt="" width="44" height="33">Vish Flow</a>
+<nav aria-label="Main">
+<button id="menu" aria-expanded="false" aria-controls="links" aria-label="Open menu">☰</button>
+<ul id="links">
+<li><a class="l" href="#home">Home</a></li><li><a class="l" href="#domains">Domains</a></li><li><a class="l" href="#how">How it works</a></li><li><a class="l" href="#projects">Projects</a></li><li><a class="l" href="#faq">FAQs</a></li>
+<li><a class="l" href="login.html">Log in</a></li>
+<li><a class="btn wab" href="https://chat.whatsapp.com/IpMAKNngIEIDK7xdQTI0ge" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:.45rem"><path d="M3 21l1.65-4.9A9 9 0 1 1 8 19.4L3 21z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.3-1.3-2-1-.8.8c-1-.4-1.8-1.2-2.2-2.2l.8-.8-1-2L9 9.5z"/></svg>Join the group</a></li>
+<li><a class="btn pri apply" href="#" target="_blank" rel="noopener noreferrer">Apply now</a></li>
+</ul>
+</nav>
+<button id="theme" class="theme" type="button" aria-label="Switch to day mode" title="Switch to day mode"><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+</div>
+</header>
+
+<main>
+<section class="hero" id="home">
+<span class="part" style="top:18%;left:8%"></span><span class="part" style="top:60%;left:45%;animation-delay:1s"></span><span class="part" style="top:25%;left:55%;animation-delay:2s"></span><span class="part" style="top:80%;left:90%;animation-delay:.5s"></span>
+<div class="wrap">
+<div>
+<p class="rise lead" style="margin-bottom:.8rem">Vish Flow · Multi-Domain Internship Program</p>
+<h1 class="rise">Your Skills. <span>Your Projects. Your Future.</span></h1>
+<p class="rise lead" style="margin-top:1.2rem">Explore multiple domains, develop practical skills, and build meaningful projects at your level.</p>
+<div class="row rise"><a class="btn pri" href="#domains">Explore domains</a><a class="btn apply" href="#" target="_blank" rel="noopener noreferrer">Apply now</a></div>
+<p class="rise" style="margin-top:1.5rem;color:var(--mute);font-size:.9rem">Powered by Code With Vishesh · Learn. Build. Grow.</p>
+</div>
+<div class="orb" role="img" aria-label="3D knot that rotates and moves as you scroll"></div>
+</div>
+<a class="scroll" href="#about"><b></b>Scroll</a>
+</section>
+
+<section id="about" class="alt grid-bg">
+<div class="wrap reveal">
+<h2>One initiative, many ways in</h2>
+<p class="lead">Vish Flow is an internship initiative from Code With Vishesh for students and self-learners who want to practise real skills on real projects. You pick a domain and a level; the work is shaped around where you are now.</p>
+</div>
+</section>
+
+<section id="story" class="story" aria-label="Learn, Build, Grow">
+<div class="stick"><div class="wrap">
+<div class="stages">
+<div class="stage on"><h2>Learn</h2><p class="lead">Follow a structured plan for your domain, from fundamentals to deeper topics.</p></div>
+<div class="stage"><h2>Build</h2><p class="lead">Turn what you learn into projects you can explain and show.</p></div>
+<div class="stage"><h2>Grow</h2><p class="lead">Reflect on feedback, tackle harder tasks, and move up a level.</p></div>
+</div>
+<div class="rail" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+</div></div>
+</section>
+
+<section id="domains">
+<div class="wrap">
+<h2>Explore domains</h2>
+<p class="lead">Domains marked Planned are on the roadmap. A domain is marked Open only once its learning plan and mentoring are confirmed.</p>
+<div class="tools">
+<input type="search" id="q" placeholder="Search domains, e.g. Python" aria-label="Search domains">
+<div class="row" id="cats" role="group" aria-label="Filter by category"></div>
+</div>
+<p id="count" class="lead" style="margin:1rem 0 0;font-size:.95rem" aria-live="polite"></p>
+<div class="grid" id="dgrid"></div>
+<div class="empty" id="none" hidden>No domains match your search. Clear the search or choose another category.</div>
+</div>
+</section>
+
+<dialog id="dlg" aria-labelledby="dt">
+<h3 id="dt"></h3><p id="dd" style="margin-top:.6rem"></p><div id="dl"></div>
+<p class="note">Learning plan, mentoring, and duration for this domain are not confirmed yet. Details will be added here once they are.</p>
+<div class="row" style="margin-top:1.2rem"><a class="btn pri apply" href="#" target="_blank" rel="noopener noreferrer">Apply now</a><button class="btn" id="dx">Close</button></div>
+</dialog>
+
+<section id="levels" class="alt">
+<div class="wrap reveal">
+<h2>One program, three skill levels</h2>
+<p class="lead">Every domain follows the same three pathways. Requirements and assignments vary by domain and level.</p>
+<div class="grid levels">
+<div class="card"><h3>Beginner</h3><p>Fundamentals and guided projects. Good if you are new to the domain.</p></div>
+<div class="card"><h3>Intermediate</h3><p>Independent implementation and integrations. Good if you can build small things unaided.</p></div>
+<div class="card"><h3>Advanced</h3><p>Complex projects and deeper technical problem-solving.</p></div>
+</div>
+</div>
+</section>
+
+<section id="projects">
+<div class="wrap reveal">
+<h2>Example projects</h2>
+<p class="lead">Illustrative project ideas showing the kind of work each level could involve. They are not completed intern work.</p>
+<div class="grid" id="pgrid"></div>
+</div>
+</section>
+
+<section id="how" class="alt">
+<div class="wrap">
+<h2>How it works</h2>
+<p class="lead">The proposed path from first look to final feedback.</p>
+<ol class="tl" id="tl"><span class="fill" id="fill"></span>
+<li data-n="1"><h3>Explore a domain</h3><p>Browse domains and pick a level that fits you.</p></li>
+<li data-n="2"><h3>Submit an application</h3><p>Fill in the official Google Form.</p></li>
+<li data-n="3"><h3>Application review and selection</h3><p>Applications are reviewed. Submitting does not guarantee selection.</p></li>
+<li data-n="4"><h3>Orientation and learning plan</h3><p>Selected applicants receive their plan.</p></li>
+<li data-n="5"><h3>Complete assignments and projects</h3><p>Work through tasks for your domain and level.</p></li>
+<li data-n="6"><h3>Final evaluation and feedback</h3><p>Your work is reviewed and you get feedback.</p></li>
+</ol>
+<p class="note">This workflow is a proposal. Dates, duration, and operating details will be published once confirmed.</p>
+</div>
+</section>
+
+<section id="benefits">
+<div class="wrap reveal">
+<h2>What you can expect to gain</h2>
+<div class="grid">
+<div class="card"><h3>Project-based learning</h3><p>Learn by building, not only by watching.</p></div>
+<div class="card"><h3>Portfolio development</h3><p>Finish with work you can show and explain.</p></div>
+<div class="card"><h3>Practical skills</h3><p>Practise tools and workflows used in real projects.</p></div>
+<div class="card"><h3>Structured tasks</h3><p>Clear assignments matched to your level.</p></div>
+<div class="card"><h3>Mentor feedback</h3><p>Feedback on your work, where mentors are available for your domain.</p></div>
+</div>
+<p class="note">Vish Flow does not promise jobs, stipends, placement, or guaranteed selection.</p>
+</div>
+</section>
+
+<section id="community" class="alt">
+<div class="wrap reveal">
+<h2>Community and mentorship</h2>
+<p class="lead">The plan is for participants to learn alongside peers and get feedback from mentors in their domain. Mentor names and group formats will be shared once confirmed.</p>
+<div class="wa card">
+<span class="wai" aria-hidden="true">💬</span>
+<div><h3>📲 Join our WhatsApp Group</h3>
+<p>Join our WhatsApp Group for internship announcements, important updates, and further instructions.</p>
+<p class="wau"><a href="https://chat.whatsapp.com/IpMAKNngIEIDK7xdQTI0ge" target="_blank" rel="noopener noreferrer">https://chat.whatsapp.com/IpMAKNngIEIDK7xdQTI0ge</a></p></div>
+<a class="btn pri" href="https://chat.whatsapp.com/IpMAKNngIEIDK7xdQTI0ge" target="_blank" rel="noopener noreferrer">Join on WhatsApp</a>
+</div>
+</div>
+</section>
+
+<section id="faq">
+<div class="wrap">
+<h2>FAQs</h2>
+<p class="lead">Answers marked “to be announced” will be updated when decided.</p>
+<div id="faqs" style="margin-top:1.5rem;max-width:820px"></div>
+</div>
+</section>
+
+<section class="cta">
+<div class="wrap reveal">
+<h2>Your Next Chapter Starts Here.</h2>
+<p class="lead">Pick a domain, choose your level, and send your application.</p>
+<div class="row"><a class="btn pri apply" href="#" target="_blank" rel="noopener noreferrer">Apply now</a><a class="btn" href="#domains">Explore domains</a></div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap fg">
+<div><a class="logo" href="#home"><img class="mark" src="assets/logo-mark.webp" alt="" width="44" height="33">Vish Flow</a><p style="margin-top:.8rem">Multi-Domain Internship Program<br>Powered by Code With Vishesh</p><ul class="soc" id="soc" aria-label="Social links"></ul>
+<p>Contact details will be added once supplied.</p></div>
+<div><h3>Quick links</h3><ul><li><a href="#about">About</a></li><li><a href="#domains">Domains</a></li><li><a href="#how">How it works</a></li><li><a href="#faq">FAQs</a></li><li><a href="https://chat.whatsapp.com/IpMAKNngIEIDK7xdQTI0ge" target="_blank" rel="noopener noreferrer">WhatsApp group</a></li><li><a class="apply" href="#" target="_blank" rel="noopener noreferrer">Apply now</a></li></ul></div>
+<div><h3>Domains</h3><ul id="fdom"></ul></div>
+</div>
+<div class="wrap" style="margin-top:2rem;padding-top:1.2rem;border-top:1px solid var(--line)">
+<p style="margin:0">© <span id="yr"></span> Vish Flow · Code With Vishesh. Privacy policy and terms: to be published.</p>
+</div>
+</footer>
+
+<script src="vendor/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

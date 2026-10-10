@@ -1,0 +1,32 @@
+name: CI
+on: { push: { branches: [main] }, pull_request: {} }
+permissions: { contents: read }
+jobs:
+  site-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm install
+        working-directory: site
+      - run: npm test
+        working-directory: site
+  database-tests:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_PASSWORD: postgres }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env: { PGURL: "postgresql://postgres:postgres@localhost:5432/postgres" }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply local Supabase stand-in, migration, then tests
+        run: |
+          psql "$PGURL" -v ON_ERROR_STOP=1 -q -f supabase/local-tests/00_local_supabase_shim.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -q -f supabase/migrations/20261010000000_identity_core.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/local-tests/01_identity_core_test.sql | tee /tmp/out.txt
+          grep -q "ALL TESTS PASSED" /tmp/out.txt

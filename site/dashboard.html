@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard | Vish Flow</title><meta name="robots" content="noindex">
+<link rel="icon" type="image/webp" href="assets/logo-mark.webp">
+<script>(function(){var t;try{t=localStorage.getItem("vf-theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t})()</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="auth.css"></head>
+<body data-page="dashboard"><canvas id="wave" aria-hidden="true"></canvas><div class="auth-top"><a class="logo" href="index.html" aria-label="Vish Flow home"><img class="mark" src="assets/logo-mark.webp" alt="" width="44" height="33">Vish Flow</a></div><main class="auth-wrap"><div class="auth-card"><a class="x" href="index.html" aria-label="Close and return to the site">&#10005;</a>
+<h1>Dashboard</h1><p>Your Vish Flow account.</p>
+<div class="msg" id="cfgwarn" role="alert" hidden></div>
+<div class="msg" id="msg" role="alert" aria-live="polite" hidden></div>
+<div class="kv"><b>Vish Flow ID</b><span class="idbox" id="pid">…</span></div><div class="kv"><b>Display name</b><span id="name">…</span></div><div class="kv"><b>Account status</b><span id="status">…</span></div><div class="kv"><b>Email</b><span id="email-state">…</span></div><div class="kv"><b>Roles</b><span id="roles">…</span></div><p class="note">A Vish Flow ID identifies your account on Vish Flow. It is not a government ID and does not prove your real-world identity.</p><a class="btn pri block" href="profile.html">Edit profile</a><a class="btn block ghost" href="security.html">Security settings</a><button class="btn block ghost" id="logout" type="button">Log out</button>
+<div class="auth-panel"><b>Learn. Build. Grow.</b><span>Powered by Code With Vishesh</span></div>
+</div></main>
+<script src="config.js"></script><script src="auth-core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="auth.js"></script><script src="wave.js"></script></body></html>

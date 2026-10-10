@@ -1,0 +1,29 @@
+name: Deploy site to GitHub Pages
+on: { push: { branches: [main], paths: ["site/**", ".github/workflows/deploy-pages.yml"] }, workflow_dispatch: {} }
+permissions: { contents: read, pages: write, id-token: write }
+concurrency: { group: pages, cancel-in-progress: true }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
+    env:
+      SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+      GOOGLE_ENABLED: ${{ vars.GOOGLE_ENABLED }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Refuse secret keys in public variables
+        run: |
+          node -e 'const C=require("./site/auth-core.js");const p=C.configProblem({SUPABASE_URL:process.env.SUPABASE_URL,SUPABASE_ANON_KEY:process.env.SUPABASE_ANON_KEY});if(p==="secret_key"){console.error("A secret/service-role key was found in public variables. Remove it and rotate the key.");process.exit(1)}'
+      - name: Build site folder with config.js from repository variables
+        run: |
+          mkdir _site
+          tar cf - -C site --exclude=tests --exclude=node_modules --exclude=package.json --exclude=tools . | tar xf - -C _site
+          node -e 'const c={SUPABASE_URL:process.env.SUPABASE_URL||"",SUPABASE_ANON_KEY:process.env.SUPABASE_ANON_KEY||"",GOOGLE_ENABLED:process.env.GOOGLE_ENABLED==="true"};require("fs").writeFileSync("_site/config.js","window.VF_CONFIG = "+JSON.stringify(c)+";\n")'
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: _site }
+      - id: deployment
+        uses: actions/deploy-pages@v4
