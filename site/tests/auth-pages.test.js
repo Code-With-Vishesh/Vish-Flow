@@ -16,15 +16,16 @@ const submit = (w, f) => { f.dispatchEvent(new w.Event("submit", { bubbles: true
 const fill = (d, v) => Object.entries(v).forEach(([k, x]) => { d.getElementById(k).value = x; });
 
 test("every auth page loads with missing config, shows a warning and throws no errors", async () => {
+  const missing = { SUPABASE_URL: "", SUPABASE_ANON_KEY: "", GOOGLE_ENABLED: false };
   for (const f of ["signup", "login", "forgot-password", "reset-password", "auth-callback", "dashboard", "profile", "security"]) {
-    const { d, errors } = await load(f + ".html");
+    const { d, errors } = await load(f + ".html", { cfg: missing });
     assert.strictEqual(d.getElementById("cfgwarn").hidden, false, f);
     assert.match(d.getElementById("cfgwarn").textContent, /not connected to Supabase/, f);
     assert.deepStrictEqual(errors, [], f);
   }
 });
 test("submitting with missing config does nothing harmful", async () => {
-  const { w, d, errors } = await load("login.html");
+  const { w, d, errors } = await load("login.html", { cfg: { SUPABASE_URL: "", SUPABASE_ANON_KEY: "", GOOGLE_ENABLED: false } });
   fill(d, { email: "a@b.co", password: "whatever123" }); await submit(w, d.getElementById("form"));
   assert.match(d.getElementById("msg").textContent, /not connected/); assert.deepStrictEqual(errors, []);
 });
