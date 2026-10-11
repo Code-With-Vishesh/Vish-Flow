@@ -128,7 +128,7 @@
   if (page === "dashboard") need().then(function (u) {
     if (!u) return; bindLogout();
     text("#email-state", u.email_confirmed_at ? "Confirmed" : "Not confirmed yet");
-    return Promise.all([ensureProfile(u), sb.from("user_roles").select("role")]).then(function (r) {
+    return Promise.all([ensureProfile(u), sb.from("user_roles").select("role").eq("user_id", u.id)]).then(function (r) {
       var p = r[0].data;
       if (r[0].error || !p) return msg(profileProblem(r[0].error), "err");
       text("#pid", p.public_id); text("#name", p.display_name || "Not set"); text("#status", p.account_status);
