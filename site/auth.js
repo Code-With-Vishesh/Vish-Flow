@@ -36,6 +36,15 @@
     });
   }
   function loadProfile(u) { return sb.from("profiles").select("public_id,display_name,bio,account_status,visibility,created_at").eq("id", u.id).maybeSingle(); }
+  function ensureProfile(u) {                       // self-heal: if the profile row is missing, ask the database to create it (idempotent, own account only)
+    return loadProfile(u).then(function (r) {
+      if (r.data || r.error) return r;
+      return sb.rpc("ensure_my_profile").then(function (x) { return x.error ? { data: null, error: x.error } : loadProfile(u); });
+    });
+  }
+  function profileProblem(err) {
+    return "Your profile couldn't be loaded." + (err ? " (Details: " + String(err.code || "") + " " + String(err.message || "").slice(0, 120) + ")" : " Refresh in a moment; if this continues, contact support.");
+  }
   function bindLogout() { var b = $("#logout"); if (b) b.addEventListener("click", function () { sb.auth.signOut().then(function () { location.assign("login.html"); }); }); }
 
   if (page === "signup") onSubmit("#form", function (d) {
@@ -101,9 +110,9 @@
   if (page === "dashboard") need().then(function (u) {
     if (!u) return; bindLogout();
     text("#email-state", u.email_confirmed_at ? "Confirmed" : "Not confirmed yet");
-    return Promise.all([loadProfile(u), sb.from("user_roles").select("role")]).then(function (r) {
+    return Promise.all([ensureProfile(u), sb.from("user_roles").select("role")]).then(function (r) {
       var p = r[0].data;
-      if (r[0].error || !p) return msg("Your profile isn't ready yet. Refresh in a moment; if this continues, contact support.", "err");
+      if (r[0].error || !p) return msg(profileProblem(r[0].error), "err");
       text("#pid", p.public_id); text("#name", p.display_name || "Not set"); text("#status", p.account_status);
       text("#roles", (r[1].data || []).map(function (x) { return x.role; }).join(", "));
     });
@@ -111,8 +120,8 @@
 
   if (page === "profile") need().then(function (u) {
     if (!u) return; bindLogout();
-    return loadProfile(u).then(function (r) {
-      var p = r.data; if (r.error || !p) return msg("Your profile isn't ready yet. Refresh in a moment.", "err");
+    return ensureProfile(u).then(function (r) {
+      var p = r.data; if (r.error || !p) return msg(profileProblem(r.error), "err");
       text("#pid", p.public_id); text("#status", p.account_status);
       $("#f-name").value = p.display_name || ""; $("#f-bio").value = p.bio || ""; $("#f-vis").value = p.visibility;
       $("#copy").addEventListener("click", function () { if (navigator.clipboard) navigator.clipboard.writeText(p.public_id).then(function () { msg("ID copied.", "ok"); }); });

@@ -27,6 +27,7 @@ with checks(name, ok, required, detail) as (
   union all select 'email-confirmed trigger activates account',
     exists (select 1 from pg_trigger where tgname = 'on_auth_user_confirmed' and tgrelid = 'auth.users'::regclass and not tgisinternal), true, null
   union all select 'anonymous visitors cannot read profiles', not has_table_privilege('anon', 'public.profiles', 'SELECT'), true, null
+  union all select 'client roles can use public schema', has_schema_privilege('anon', 'public', 'USAGE') and has_schema_privilege('authenticated', 'public', 'USAGE'), true, null
   union all select 'users cannot change account_status', not has_column_privilege('authenticated', 'public.profiles', 'account_status', 'UPDATE'), true, null
   union all select 'users cannot change public_id', not has_column_privilege('authenticated', 'public.profiles', 'public_id', 'UPDATE'), true, null
   union all select 'users cannot write roles',
@@ -37,6 +38,9 @@ with checks(name, ok, required, detail) as (
   union all select 'anonymous cannot run admin functions',
     not has_function_privilege('anon', 'public.admin_set_role(uuid,public.app_role,boolean,text)', 'EXECUTE')
     and not has_function_privilege('anon', 'public.issue_credential(text,text,text,timestamptz,boolean,text)', 'EXECUTE'), true, null
+  union all select 'signed-in users can self-heal their own profile', has_function_privilege('authenticated', 'public.ensure_my_profile()', 'EXECUTE'), true,
+    'If FAIL: run supabase/migrations/20261013000000_ensure_profile_and_backfill.sql'
+  union all select 'ensure_profile(uuid) is internal only', not has_function_privilege('authenticated', 'public.ensure_profile(uuid)', 'EXECUTE'), true, null
   union all select 'every signed-up user has a profile',
     not exists (select 1 from auth.users u left join public.profiles p on p.id = u.id where p.id is null), true,
     (select count(*) || ' users, ' || (select count(*) from public.profiles) || ' profiles' from auth.users)

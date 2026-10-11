@@ -236,6 +236,7 @@ revoke execute on all functions in schema public from public, anon, authenticate
 alter default privileges in schema public revoke all on tables from anon, authenticated;
 alter default privileges in schema public revoke execute on functions from public;
 
+grant usage on schema public to anon, authenticated;
 grant select on public.profiles, public.user_roles, public.audit_logs, public.credentials, public.credential_events to authenticated;
 grant update (display_name, bio, visibility) on public.profiles to authenticated;   -- no client writes to status, id, public_id or roles
 
