@@ -36,10 +36,28 @@
     });
   }
   function loadProfile(u) { return sb.from("profiles").select("public_id,display_name,bio,account_status,visibility,created_at").eq("id", u.id).maybeSingle(); }
+  function profileName(u) {
+    var metadata = u && u.user_metadata || {}, candidates = [metadata.display_name, metadata.full_name, metadata.name];
+    for (var i = 0; i < candidates.length; i++) {
+      if (typeof candidates[i] === "string" && candidates[i].trim()) return candidates[i].trim().replace(/\s+/g, " ").slice(0, 80);
+    }
+    return "";
+  }
+  function fillDisplayName(u, r) {
+    var name = profileName(u);
+    if (r.error || !r.data || String(r.data.display_name || "").trim() || !name) return Promise.resolve(r);
+    return sb.from("profiles").update({ display_name: name }).eq("id", u.id).then(function (x) {
+      return x.error ? { data: r.data, error: x.error } : loadProfile(u);
+    });
+  }
   function ensureProfile(u) {                       // self-heal: if the profile row is missing, ask the database to create it (idempotent, own account only)
     return loadProfile(u).then(function (r) {
-      if (r.data || r.error) return r;
-      return sb.rpc("ensure_my_profile").then(function (x) { return x.error ? { data: null, error: x.error } : loadProfile(u); });
+      if (r.error) return r;
+      if (r.data) return fillDisplayName(u, r);
+      return sb.rpc("ensure_my_profile").then(function (x) {
+        if (x.error) return { data: null, error: x.error };
+        return loadProfile(u).then(function (profile) { return fillDisplayName(u, profile); });
+      });
     });
   }
   function profileProblem(err) {

@@ -95,21 +95,28 @@ test("[mocked SDK] callback shows the real reason for a failed Google sign-in", 
   const e = await load("auth-callback.html", { cfg, sdk: s.sdk, search: "?error=access_denied&error_description=User+denied" });
   assert.match(e.d.getElementById("msg").textContent, /cancelled or denied/);
 });
-function dashStub(profileExists) {
+function dashStub(profileExists, userMetadata = {}, existingName = null) {
   let have = profileExists; const calls = [];
-  const profile = { public_id: "VF-7K4M-9Q2X", display_name: null, account_status: "active", visibility: "private", created_at: "2026-01-01" };
-  const sb = { auth: { getUser: async () => ({ data: { user: { id: "u1", email_confirmed_at: "x" } }, error: null }), onAuthStateChange() {}, signOut: async () => ({}) },
+  const profile = { public_id: "VF-7K4M-9Q2X", display_name: existingName, account_status: "active", visibility: "private", created_at: "2026-01-01" };
+  const sb = { auth: { getUser: async () => ({ data: { user: { id: "u1", email_confirmed_at: "x", user_metadata: userMetadata } }, error: null }), onAuthStateChange() {}, signOut: async () => ({}) },
     rpc: async n => { calls.push(n); have = true; return { error: null }; },
     from: t => ({ select: () => { const res = t === "profiles" ? { data: have ? profile : null, error: null } : { data: [{ role: "student" }], error: null };
-      const p = Promise.resolve(res); p.eq = () => ({ maybeSingle: () => Promise.resolve(res) }); return p; } }) };
+      const p = Promise.resolve(res); p.eq = () => ({ maybeSingle: () => Promise.resolve(res) }); return p; },
+      update: fields => ({ eq: async () => { Object.assign(profile, fields); return { error: null }; } }) }) };
   return { calls, sdk: { createClient: () => sb } };
 }
 test("[mocked SDK] dashboard creates a missing profile once, then shows the Vish Flow ID", async () => {
-  const s = dashStub(false); const { d } = await load("dashboard.html", { cfg, sdk: s.sdk });
+  const s = dashStub(false, { full_name: "Google Display Name" }); const { d } = await load("dashboard.html", { cfg, sdk: s.sdk });
   assert.deepStrictEqual(s.calls, ["ensure_my_profile"]);
   assert.strictEqual(d.getElementById("pid").textContent, "VF-7K4M-9Q2X"); assert.strictEqual(d.getElementById("msg").hidden, true);
+  assert.strictEqual(d.getElementById("name").textContent, "Google Display Name");
 });
 test("[mocked SDK] dashboard does not call ensure_my_profile when the profile already exists", async () => {
-  const s = dashStub(true); const { d } = await load("dashboard.html", { cfg, sdk: s.sdk });
+  const s = dashStub(true, { name: "Google Display Name" }); const { d } = await load("dashboard.html", { cfg, sdk: s.sdk });
   assert.deepStrictEqual(s.calls, []); assert.strictEqual(d.getElementById("pid").textContent, "VF-7K4M-9Q2X");
+  assert.strictEqual(d.getElementById("name").textContent, "Google Display Name");
+});
+test("[mocked SDK] dashboard preserves a display name the user already chose", async () => {
+  const s = dashStub(true, { name: "Google Display Name" }, "Chosen Name"); const { d } = await load("dashboard.html", { cfg, sdk: s.sdk });
+  assert.strictEqual(d.getElementById("name").textContent, "Chosen Name");
 });
