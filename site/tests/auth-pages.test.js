@@ -79,6 +79,8 @@ test("no real key-like strings or innerHTML in shipped browser code", () => {
 test("login page: new layout, Google off by default, password toggle works", async () => {
   const { w, d, errors } = await load("login.html");
   assert.ok(d.querySelector(".auth-card .x") && d.querySelector(".auth-panel") && d.getElementById("wave"));
+  assert.strictEqual(d.querySelectorAll(".auth-intro .intro-features li").length, 4);
+  assert.match(d.querySelector(".auth-intro h2").textContent, /Your Skills.*Your Projects.*Your Future/s);
   assert.strictEqual(d.getElementById("google").disabled, true);
   const i = d.getElementById("password"), b = d.querySelector(".eye");
   assert.strictEqual(i.type, "password"); b.click(); assert.strictEqual(i.type, "text"); b.click(); assert.strictEqual(i.type, "password");

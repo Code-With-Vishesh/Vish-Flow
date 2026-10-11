@@ -45,3 +45,17 @@ body{background:radial-gradient(60% 40% at 80% 0%,rgba(139,92,246,.22),transpare
 .auth-panel{position:relative;margin:2rem -2rem 0;padding:1.6rem 2rem 1.8rem;border-radius:0 0 30px 30px;background:linear-gradient(120deg,#3d7bff,#8b5cf6 55%,#e254c8);color:#fff;display:grid;gap:.15rem;clip-path:polygon(0 0,100% 0,100% 50%,calc(100% - 70px) 50%,calc(100% - 70px) 100%,0 100%)}
 .auth-panel b{font:800 1.3rem Sora,sans-serif;letter-spacing:-.01em}.auth-panel span{font-size:.9rem;opacity:.9}
 @media(max-width:480px){.auth-card{padding:2rem 1.25rem 0}.auth-panel{margin:2rem -1.25rem 0;padding:1.4rem 1.25rem 1.6rem}}
+body[data-page=login]::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(4,7,22,.42),rgba(4,7,22,.3) 48%,rgba(4,7,22,.58)),url("assets/login-nebula.jpg") center/cover no-repeat}
+body[data-page=login] .auth-wrap{width:min(100%,1440px);margin:0 auto;grid-template-columns:minmax(0,1fr) minmax(380px,480px);gap:clamp(3rem,7vw,7rem);padding:7rem clamp(2rem,5vw,4.5rem) 4rem}
+.auth-intro{max-width:620px}
+.intro-kicker{margin:0 0 1rem;color:#ad8aff;font-size:.78rem;font-weight:800;letter-spacing:.24em}
+.auth-intro h2{font:800 clamp(2.6rem,5vw,4.4rem)/1.08 Sora,system-ui,sans-serif;letter-spacing:-.045em}
+.auth-intro h2 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro-copy{max-width:390px;margin:1.2rem 0 0;color:#c1c9e7;font-size:1.02rem;line-height:1.7}
+.intro-rule{width:132px;height:3px;margin:1.5rem 0 1.35rem;border-radius:99px;background:var(--grad);box-shadow:0 0 18px rgba(139,92,246,.55)}
+.intro-features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;padding:0;margin:0;list-style:none}
+.intro-features li{display:flex;align-items:center;gap:.55rem;color:#dce2ff;font-size:.78rem;line-height:1.35}
+.feature-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid rgba(139,126,255,.24);border-radius:14px;background:rgba(14,22,58,.72);box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 24px rgba(31,46,125,.18)}
+.feature-icon svg{width:21px;height:21px;fill:none;stroke:#9e8aff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:900px){body[data-page=login] .auth-wrap{width:min(100%,620px);grid-template-columns:minmax(0,1fr);gap:2rem;padding:6.5rem 1.25rem 3rem}.auth-intro{max-width:520px}.auth-intro h2{font-size:clamp(2.5rem,8vw,3.4rem)}.auth-card{justify-self:center}}
+@media(max-width:480px){.intro-kicker{font-size:.68rem;letter-spacing:.18em}.intro-copy{font-size:.94rem}.intro-features{grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem 1rem}.intro-features li{font-size:.8rem}}
