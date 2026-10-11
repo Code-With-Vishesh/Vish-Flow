@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Connection check | Vish Flow</title><meta name="robots" content="noindex">
+<link rel="icon" type="image/webp" href="assets/logo-mark.webp">
+<script>(function(){var t;try{t=localStorage.getItem("vf-theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t})()</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Manrope:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="auth.css">
+<style>.chk{list-style:none;margin:.6rem 0;padding:.7rem 1rem;border-radius:14px;border:1px solid var(--line);display:grid;gap:.15rem;overflow-wrap:anywhere}.chk span{color:var(--mute);font-size:.9rem}.chk.pass{border-color:#2fb36b}.chk.fail{border-color:#e5484d;background:rgba(229,72,77,.12)}.chk.warn{border-color:#e2a54c}#results{padding:0;margin:1rem 0 0}</style></head>
+<body data-page="check"><div class="auth-top"><a class="logo" href="index.html"><img class="mark" src="assets/logo-mark.webp" alt="" width="44" height="33">Vish Flow</a></div>
+<main class="auth-wrap"><div class="auth-card" style="width:min(100%,640px)">
+<h1>Connection check</h1><p>Checks your Supabase connection using only the public key. Safe to run; it changes nothing.</p>
+<ul id="results" aria-live="polite"></ul>
+<p class="note">Also run <code>supabase/verify/verify_setup.sql</code> in the Supabase SQL Editor for the full database check.</p>
+<a class="btn block ghost" href="index.html">Back to site</a>
+</div></main>
+<script src="config.js"></script><script src="auth-core.js"></script><script src="check.js"></script></body></html>

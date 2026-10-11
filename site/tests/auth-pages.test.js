@@ -6,7 +6,8 @@ const root = path.join(__dirname, "..");
 const KEY = "sb_publishable_" + "a".repeat(24);
 async function load(file, { cfg, sdk, search = "" } = {}) {
   const errors = [];
-  const dom = await JSDOM.fromFile(path.join(root, file) + search, { runScripts: "dangerously", resources: new Local(), pretendToBeVisual: true,
+  const pagePath = path.join(root, file);
+  const dom = await JSDOM.fromFile(pagePath, { url: require("url").pathToFileURL(pagePath).href + search, runScripts: "dangerously", resources: new Local(), pretendToBeVisual: true,
     beforeParse(w) { w.matchMedia = () => ({ matches: false }); if (cfg) w.VF_CONFIG = cfg; if (sdk) w.supabase = sdk; w.addEventListener("error", e => errors.push(e.message)); } });
   await new Promise(r => dom.window.addEventListener("load", r));
   await new Promise(r => setTimeout(r, 50));
@@ -86,4 +87,11 @@ test("login page: new layout, Google off by default, password toggle works", asy
 test("[mocked SDK] Google button turns on only when GOOGLE_ENABLED is true", async () => {
   const s = stub(); const off = await load("login.html", { cfg, sdk: s.sdk }); assert.strictEqual(off.d.getElementById("google").disabled, true);
   const on = await load("login.html", { cfg: { ...cfg, GOOGLE_ENABLED: true }, sdk: s.sdk }); assert.strictEqual(on.d.getElementById("google").disabled, false);
+});
+test("[mocked SDK] callback shows the real reason for a failed Google sign-in", async () => {
+  const s = stub(); const { d } = await load("auth-callback.html", { cfg, sdk: s.sdk, search: "?error=server_error&error_code=unexpected_failure&error_description=Database+error+saving+new+user" });
+  const m = d.getElementById("msg").textContent;
+  assert.match(m, /could not create your profile/); assert.match(m, /Database error saving new user/);
+  const e = await load("auth-callback.html", { cfg, sdk: s.sdk, search: "?error=access_denied&error_description=User+denied" });
+  assert.match(e.d.getElementById("msg").textContent, /cancelled or denied/);
 });

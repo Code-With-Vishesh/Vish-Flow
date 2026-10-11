@@ -91,7 +91,7 @@
 
   if (page === "callback" && sb) {
     var qs = new URLSearchParams(location.search + "&" + location.hash.slice(1)), done = false;
-    if (qs.get("error") || qs.get("error_description")) { msg("This link is invalid or has expired. If you already confirmed your email, you can sign in.", "err"); done = true; }
+    if (qs.get("error") || qs.get("error_description")) { msg(C.explainAuthError(qs.get("error_code") || qs.get("error"), qs.get("error_description")), "err"); done = true; }
     else {
       sb.auth.onAuthStateChange(function (ev, s) { if (!done && s) { done = true; location.replace("dashboard.html"); } });
       setTimeout(function () { if (!done) msg("We couldn't complete the confirmation here. If your email is confirmed, you can sign in.", "err"); }, 6000);

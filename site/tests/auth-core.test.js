@@ -23,3 +23,9 @@ test("public ID format and callback URL building", () => {
   assert.ok(C.isPublicId("VF-7K4M-9Q2X")); assert.ok(!C.isPublicId("VF-0000-1111")); assert.ok(!C.isPublicId("vf-7k4m-9q2x")); assert.ok(!C.isPublicId("VF-7K4M-9Q2X; drop"));
   assert.strictEqual(C.siblingUrl("https://x.com/app/signup.html?a=1#b", "auth-callback.html"), "https://x.com/app/auth-callback.html");
 });
+test("explainAuthError gives specific hints and never injects markup", () => {
+  assert.match(C.explainAuthError("unexpected_failure", "Database error saving new user"), /migration/);
+  assert.match(C.explainAuthError("server_error", "Unable to exchange external code"), /Google sign-in settings/);
+  assert.match(C.explainAuthError("", ""), /invalid or has expired/);
+  assert.ok(C.explainAuthError("x", "<img src=x onerror=alert(1)>".repeat(20)).length < 300);
+});

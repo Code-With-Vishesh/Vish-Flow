@@ -30,7 +30,18 @@
     return k.length < 20 ? "bad_key" : null;
   }
   function siblingUrl(href, file) { var u = new URL(file, href); u.search = ""; u.hash = ""; return u.href; }
+  function explainAuthError(code, desc) {         // friendly hint + the provider's own words (shown via textContent only)
+    code = String(code || "").slice(0, 60); desc = String(desc || "").replace(/\+/g, " ").replace(/[^\x20-\x7E]/g, "").slice(0, 160);
+    var all = (code + " " + desc).toLowerCase(), hint;
+    if (/database error saving new user|unexpected_failure/.test(all)) hint = "The database could not create your profile. Run the latest migration (20261012000000_fix_random_without_pgcrypto.sql), then try again.";
+    else if (/access_denied/.test(all)) hint = "Sign-in was cancelled or denied. Please try again.";
+    else if (/exchange external code|bad_oauth_callback|invalid_client|redirect_uri|provider is not enabled|unsupported provider/.test(all)) hint = "Google sign-in settings look wrong (Client ID/Secret, or the redirect URI in Google Cloud, or the Google provider is off in Supabase).";
+    else if (/flow_state|code verifier|bad_oauth_state|pkce/.test(all)) hint = "Start sign-in again in the same browser and use the same site address throughout (don't mix localhost and github.io).";
+    else if (/otp_expired|expired/.test(all)) hint = "This link has expired. Please request a new one.";
+    else hint = "This link is invalid or has expired. If you already confirmed your email, you can sign in.";
+    return hint + (code || desc ? " (Details: " + [code, desc].filter(Boolean).join(" - ") + ")" : "");
+  }
   function isPublicId(s) { return typeof s === "string" && /^VF-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4}$/.test(s); }
-  var api = { safeNext: safeNext, validateEmail: validateEmail, validatePassword: validatePassword, keyRole: keyRole, configProblem: configProblem, siblingUrl: siblingUrl, isPublicId: isPublicId };
+  var api = { safeNext: safeNext, validateEmail: validateEmail, validatePassword: validatePassword, keyRole: keyRole, configProblem: configProblem, siblingUrl: siblingUrl, isPublicId: isPublicId, explainAuthError: explainAuthError };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.VFCore = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -27,6 +27,6 @@ jobs:
       - name: Apply local Supabase stand-in, migration, then tests
         run: |
           psql "$PGURL" -v ON_ERROR_STOP=1 -q -f supabase/local-tests/00_local_supabase_shim.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -q -f supabase/migrations/20261010000000_identity_core.sql
+          for f in supabase/migrations/*.sql; do PGOPTIONS="-c search_path=public,extensions" psql "$PGURL" -v ON_ERROR_STOP=1 -q -f "$f"; done
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/local-tests/01_identity_core_test.sql | tee /tmp/out.txt
           grep -q "ALL TESTS PASSED" /tmp/out.txt
